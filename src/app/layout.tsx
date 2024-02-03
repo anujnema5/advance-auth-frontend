@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "dotenv/config"
+import ReduxWrapper from "@/components/providers/ReduxWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <ReduxWrapper>
+        <body className={inter.className}>{children}</body>
+      </ReduxWrapper>
     </html>
   );
 }
