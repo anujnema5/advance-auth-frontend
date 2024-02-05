@@ -1,10 +1,16 @@
 "use client"
 import React from 'react'
 import { useGetDataQuery } from './dataApiSlice'
+import { useSelector } from 'react-redux'
+import { selectCurrentToken, selectCurrentUser } from '../login/authslice'
 
 const page = () => {
   const { data, isError, isFetching, isLoading } = useGetDataQuery('/dashboard')
-  console.log(data);
+  const user = useSelector(selectCurrentUser)
+  const token = useSelector(selectCurrentToken)
+
+  // console.log({user, token});
+  
 
   return (
     <div className='min-h-screen flex flex-col justify-center items-center'>

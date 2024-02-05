@@ -8,6 +8,8 @@ import { useLoginMutation } from './authApiSlice';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import jwt from 'jsonwebtoken';
+import { setCredentials } from './authslice';
+import { useDispatch } from 'react-redux';
 // EyeDropperIcon
 
 const page = () => {    
@@ -17,19 +19,15 @@ const page = () => {
 
     const [login, { isLoading }] = useLoginMutation()
     const router = useRouter()
+    const dispatch = useDispatch()
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        const userData = await login({ username, password }).unwrap()
-        const user = jwt.decode(userData.accessToken)        
-        // VERIFY METHOD IS NOT WORKING DUE TO SOME ERRORS SO WE HAVE USED DECODE FOR NOW
-
+        const {accessToken} = await login({ username, password }).unwrap()
         
-        
-
-        // setUsername('')
-        // setPassword('')
+        const user = jwt.decode(accessToken)   
+        dispatch(setCredentials({user, accessToken}))
 
         router.push('/welcome')
     }
